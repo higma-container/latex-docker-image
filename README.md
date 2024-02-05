@@ -1,5 +1,9 @@
 # build
 
+```bash
+$ docker build -t yoshiyasu1111/latex:v0.1 .
+```
+
 # push
 
 ```bash
