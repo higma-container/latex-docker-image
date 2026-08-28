@@ -1,6 +1,12 @@
-FROM debian:bookworm
+FROM debian:trixie-slim
 
-RUN adduser texuser --gecos "" --disabled-password \
-    && apt-get update \
-    && DEBIAN_FRONTEND=noninteractive apt-get install -y texlive-full texlive-lang-japanese texlive-fonts-extra pip python3-full python3-pygments \
-    && rm -fr /var/lib/apt/lists/*
+RUN apt-get update \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+        texlive \
+        texlive-latex-extra \
+        texlive-fonts-recommended \
+        texlive-lang-japanese \
+        texlive-luatex \
+        latexmk \
+    && rm -rf /var/lib/apt/lists/* \
+    && useradd -m -s /bin/bash texuser
