@@ -46,6 +46,15 @@ jobs:
           cache-from: type=gha,scope=latex-amd64
           cache-to: type=gha,mode=max,scope=latex-amd64
 
+      # ----------------------------------------
+      # Test
+      # ----------------------------------------
+      - name: Check LaTeX
+        run: |
+          docker run --rm \
+            ${{ env.IMAGE_NAME }}:test-amd64 \
+            latex --version
+
   # ==========================================
   # Build & Test arm64
   # ==========================================
@@ -74,3 +83,12 @@ jobs:
           # Releaseと共有するキャッシュ
           cache-from: type=gha,scope=latex-arm64
           cache-to: type=gha,mode=max,scope=latex-arm64
+
+      # ----------------------------------------
+      # Test
+      # ----------------------------------------
+      - name: Check LaTeX
+        run: |
+          docker run --rm \
+            ${{ env.IMAGE_NAME }}:test-arm64 \
+            latex --version
