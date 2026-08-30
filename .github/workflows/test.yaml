@@ -1,0 +1,76 @@
+name: Test Docker Image
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'Dockerfile'
+      - '.github/workflows/**'
+
+  pull_request:
+    paths:
+      - 'Dockerfile'
+      - '.github/workflows/**'
+
+env:
+  IMAGE_NAME: latex
+
+jobs:
+  # ==========================================
+  # Build & Test amd64
+  # ==========================================
+  build-amd64:
+    runs-on: ubuntu-26.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+
+      # ----------------------------------------
+      # Build
+      # ----------------------------------------
+      - name: Build amd64 image
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          platforms: linux/amd64
+          load: true
+          tags: |
+            ${{ env.IMAGE_NAME }}:test-amd64
+
+          # Releaseと共有するキャッシュ
+          cache-from: type=gha,scope=latex-amd64
+          cache-to: type=gha,mode=max,scope=latex-amd64
+
+  # ==========================================
+  # Build & Test arm64
+  # ==========================================
+  build-arm64:
+    runs-on: ubuntu-26.04-arm
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+
+      # ----------------------------------------
+      # Build
+      # ----------------------------------------
+      - name: Build arm64 image
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          platforms: linux/arm64
+          load: true
+          tags: |
+            ${{ env.IMAGE_NAME }}:test-arm64
+
+          # Releaseと共有するキャッシュ
+          cache-from: type=gha,scope=latex-arm64
+          cache-to: type=gha,mode=max,scope=latex-arm64

@@ -1,17 +1,8 @@
-# LaTexのDockerイメージ
+# LaTex Docker Image
 
-## build
+LaTex がインストールされた Debian ベースの Docker イメージです。
 
-```bash
-$ docker build -t yoshiyasu1111/latex:v0.4 .
-```
-
-## push
-
-```bash
-$ docker login
-$ docker image push yoshiyasu1111/latex:v0.4
-```
+LaTex を利用する CI やビルド環境などで使用できます。
 
 ## パッケージ
 
